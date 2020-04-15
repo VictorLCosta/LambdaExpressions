@@ -49,7 +49,32 @@ namespace LambdaExpressions
 
             Console.WriteLine();
             var r3 = products.Sum(p => p.Price);
-            Console.WriteLine(r3.ToString("F2", CultureInfo.InvariantCulture));
+            Console.WriteLine("PRICES SUM: " + r3.ToString("F2", CultureInfo.InvariantCulture));
+
+            Console.WriteLine();
+            var r4 = products.Where(p => p.Category.Name == "Tools");
+            Print("PRODUCTS OF TOOL GATEGORY", r4);
+
+            Console.WriteLine();
+            var r5 = products.Where(p => p.Name[0] == 'C').Select(p => new { p.Name, CategoryName = p.Category.Name });
+            Print("NAMES STARTED WITH 'C'", r5);
+
+            Console.WriteLine();
+            var r6 = products.Where(p => p.Category.Id == 5).Select(p => p .Price).DefaultIfEmpty(0.0).Average();
+            Console.WriteLine(r6);
+
+            Console.WriteLine();
+            var r7 = products.GroupBy(p => p.Category);
+            foreach (IGrouping<Category, Product> group in r7) 
+            {
+                Console.WriteLine();
+                Console.WriteLine("CATEGORY " + group.Key.Name.ToUpper() + ':');
+                foreach (Product prods in group) 
+                {
+                    Console.WriteLine(prods);
+                }
+            }
+            
         }
     }
 }
